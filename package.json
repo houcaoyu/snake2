@@ -1,0 +1,17 @@
+{
+  "name": "sockjs-echo",
+  "version": "0.0.0-unreleasable",
+  "scripts": {
+    "server": "./node_modules/.bin/webpack-dev-server --content-base build",
+    "compile":"./node_modules/.bin/webpack"
+  },
+  "dependencies": {
+    "node-static": "0.5.9",
+    "paper": "^0.10.3",
+    "sockjs": "*"
+  },
+  "devDependencies": {
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
+  }
+}
