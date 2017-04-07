@@ -1,41 +1,42 @@
 var paper = require('paper')
 const Snake = require('../app/Snake');
 
-//init paper
-paper.setup();
-console.log('============')
-module.exports = {
-    init: function() {
-        var snake = new Snake()
-        //console.log(paper.view)
-        var running=true;
-        var last=null
-        var delta;
-        var time=0,count=0;
-        var fps=60;
-        var spf=1.0/60
+function Game() {
 
-        var p=0;
-        return ;
-
-        while(running){
-          var now = Date.now() / 1000,
-          delta = last ? now - last : 0;
-          last = now;
-          if(delta==0){
-            continue;
-          }
-          var event={
-            delta: delta,
-            time: time += delta,
-            count: count++
-          }
-
-          snake.tick(event)
-          if (Math.floor(time)-p>=1) {
-              p=Math.floor(time)
-          }
-        }
-
-    }
 }
+Game.prototype.init = function() {
+  this.snake = new Snake()
+  this.conns=[]
+  this.running = true;
+  this.last = null;
+  this.delta=0;
+  this.time = 0;
+  this.count = 0;
+  this.fps = 60;
+  this.spf = 1.0 / 60
+
+  var self=this
+  setImmediate(this.loop,self)
+};
+Game.prototype.loop = function (self) {
+  if (self.running) {
+      var now = Date.now() / 1000;
+      self.delta = self.last ? now - self.last : 0;
+      self.last = now;
+      if (self.delta > 0) {
+        var event = {
+            delta: self.delta,
+            time: self.time += self.delta,
+            count: self.count++
+        }
+        self.snake.tick(event)
+      }
+  }
+  setImmediate(self.loop,self)
+};
+Game.prototype.execute = function (conn,message) {
+    
+};
+
+
+module.exports = Game

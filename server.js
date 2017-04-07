@@ -1,8 +1,12 @@
 var http = require('http');
 var sockjs = require('sockjs');
 var node_static = require('node-static');
-const game = require('./server/game');
+const Game = require('./server/game');
+var paper = require('paper')
 
+//init paper
+paper.setup();
+var game=new Game();
 game.init();
 
 // 1. Echo sockjs server
@@ -10,9 +14,10 @@ var sockjs_opts = {sockjs_url: "http://cdn.jsdelivr.net/sockjs/1.0.1/sockjs.min.
 
 var sockjs_echo = sockjs.createServer(sockjs_opts);
 sockjs_echo.on('connection', function(conn) {
+    game.conns.push[conn]
     conn.on('data', function(message) {
-        conn.write(message);
-        console.log('message:'+message);
+        //conn.write(message);
+        game.execute(conn,message)
     });
 });
 

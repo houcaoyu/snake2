@@ -4,19 +4,21 @@ module.exports = {
     init: function() {
       //init paper & canvas
       paper.setup('myCanvas');
+
       paper.view.onFrame = function(event) {
-        if(game.status=='playing'){
+        if(this.status=='playing'){
           snake.tick(event);
           paper.view.center = snake.position
         }
       }
       paper.view.onMouseDrag = function(event) {
-        if(game.status=='playing'){
+        if(this.status=='playing'){
           var d=event.point.subtract(game.snake.position)
           sockjs.send(JSON.stringify({x:d.x,y:d.y}));
         }
       }
     },
+    //conn : the connection who send this message
     //event.data
     //type:event type according to which to judge the execution
     //data:parameters of the execution
@@ -28,7 +30,7 @@ module.exports = {
                 break;
             //game start & get the position of player
             case 'start':
-                
+
                 break;
             //move
             case 'move':
